@@ -10,32 +10,6 @@ export class App extends Component {
     filter: '',
   };
 
-  // функція запису отриманих даних до масиву contacts
-  formSubmit = data => {
-    if (
-      this.state.contacts.findIndex(contact => contact.name === data.name) ===
-      -1
-    ) {
-      this.setState(prevState => ({
-        contacts: [...prevState.contacts, data],
-      }));
-    } else {
-      alert(`${data.name} is already in contacts.`);
-    }
-  };
-
-  // функція отримання даних з поля filter
-  changeFilter = event => {
-    this.setState({ filter: event.currentTarget.value });
-  };
-
-  // функція видалення контакту зі списку
-  deleteContact = Id => {
-    this.setState({
-      contacts: this.state.contacts.filter(contact => contact.id !== Id),
-    });
-  };
-
   // зчитування зі сховища
   componentDidMount() {
     const contactsData = JSON.parse(localStorage.getItem('contacts'));
@@ -50,6 +24,36 @@ export class App extends Component {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
+
+
+
+
+  // функція запису отриманих даних до масиву contacts
+  formSubmit = data => {
+    const isExist = this.state.contacts.find(contact => contact.name === data.name)
+    if (isExist) {
+   return alert(`${data.name} is already in contacts.`);
+    } else {
+        this.setState(prevState => ({
+        contacts: [...prevState.contacts, data],
+      }));
+    }
+  };
+
+ 
+
+  // функція отримання даних з поля filter
+  changeFilter = event => {
+    this.setState({ filter: event.currentTarget.value });
+  };
+
+  // функція видалення контакту зі списку
+  deleteContact = Id => {
+    this.setState({
+      contacts: this.state.contacts.filter(contact => contact.id !== Id),
+    });
+  };
+
 
   render() {
     const { contacts, filter } = this.state;
